@@ -8,12 +8,16 @@ Explanation:
 7 is a candidate, and 7 = 7.
 These are the only two combinations.
 */
+
+/*
+  TC --> O(2^t * K)  k is avg lenth and t is greater than n bcz we can take any element for any num of time
+*/
 class Solution {
     public:
     void findCombination(int ind, int target, vector<int> &arr,vector<vector<int>> &ans, vector<int> &ds){
         if(ind == arr.size()){
             if(target == 0){
-                ans.push_back(ds);
+                ans.push_back(ds);    // this takes liner time
             }
             return;
         }
