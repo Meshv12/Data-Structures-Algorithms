@@ -4,9 +4,9 @@ using namespace std;
 /**
  * Calculates the median of two sorted arrays.
  * 
- * @param a The first sorted array.
- * @param b The second sorted array.
- * @return The median of the combined arrays.
+ *  a The first sorted array.
+ *  b The second sorted array.
+ *  The median of the combined arrays.
  */
 
 double median(vector<int>& a, vector<int>& b) {
@@ -44,7 +44,8 @@ double median(vector<int>& a, vector<int>& b) {
             else {
                 return ((double)(max(l1, l2) + min(r1, r2))) / 2.0;
             }
-        } else if (l1 > r2)
+        } 
+        else if (l1 > r2)
             high = mid1 - 1;
         else
             low = mid1 + 1;
