@@ -1,7 +1,8 @@
 #include <bits/stdc++.h> 
 using namespace std;
 
-//Use subset sum equal to K concept
+// Use subset sum equal to K concept
+// Leetcode - Last Stone Weight-2
 
 int minDifference(int arr[], int n)  { 
 	    int totSum = 0;
