@@ -29,7 +29,7 @@ long f(int ind, int T, int *a, vector<vector<long>>& dp){
     long take = 0;
     if(a[ind] <= T){
         take = f(ind, T - a[ind], a, dp);
-    } 
+    }
 
     return dp[ind][T] = take + notTake;
 }

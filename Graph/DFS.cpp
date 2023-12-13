@@ -6,13 +6,26 @@ class Solution {
     void dfs(int node, vector<int> adj[], int vis[], vector<int> &ls) {
         vis[node] = 1; 
         ls.push_back(node); 
-        // traverse all its neighbours
+        /*
+         take action on node after entering the node
+        */
+
         for(auto it : adj[node]) {
-            // if the neighbour is not visited
+            /*
+             take action on child(adjecent) node BEFORE entering child(adjecent) Node
+            */
             if(!vis[it]) {
                 dfs(it, adj, vis, ls); 
             }
+            /*
+             take action on child(adjecent) node AFTER exiting child(adjecent) Node
+            */
         }
+
+        /*
+         Take action on node after exiting the node
+        */
+
     }
   public:
     // Function to return a list containing the DFS traversal of the graph.

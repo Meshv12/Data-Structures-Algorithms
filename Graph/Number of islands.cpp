@@ -6,7 +6,7 @@ class solution{
     void bfs(int row, int col, vector<vector<int>> &vis, vector<vector<char>>& grid){
         vis[row][col] = 1;
         queue<pair<int,int>> q;
-        q.push({row,col});
+        q.push({row, col});
         int n = grid.size();
         int m = grid[0].size();
         
