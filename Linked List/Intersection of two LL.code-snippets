@@ -1,0 +1,85 @@
+// Intersection of Two Linled List
+
+// Native approch 
+// TC: O(N1 + N2)
+// SC: O(N1)
+ListNode *getIntersectionNode(ListNode *head1, ListNode *head2) {
+        map<ListNode*, int> mp;
+        ListNode* temp = head1;
+
+        while(temp != NULL){
+            mp[temp] = 1;
+            temp = temp->next;
+        }
+
+        ListNode* temp1 = head2;
+
+        while(temp1 != NULL){
+            if(mp.find(temp1) != mp.end()) return temp1;
+            temp1 = temp1->next;
+        }
+
+        return NULL;
+    }
+
+// BETTER APPROCH
+// TC-> O(N1 + 2*N2)
+
+int length(ListNode *head) {
+    int len = 0;
+    while (head != NULL) {
+        len++;
+        head = head->next;
+    }
+    return len;
+}
+
+ListNode *getIntersectionNode(ListNode *head1, ListNode *head2) {
+    int len1 = length(head1);                           // O(N1)
+    int len2 = length(head2);                           // O(N2)
+
+    int diff = abs(len1 - len2);
+
+    ListNode *temp1 = head1;
+    ListNode *temp2 = head2;
+
+    // Move the pointer of the longer list by the difference in lengths
+    if (len1 > len2) {
+        for (int i = 0; i < diff; ++i) {                 // O(N2 - N1)   Suppose n2 is bigger in size than n1
+            temp1 = temp1->next;
+        }
+    } else {
+        for (int i = 0; i < diff; ++i) {
+            temp2 = temp2->next;
+        }
+    }
+
+    // Traverse both lists until they intersect or reach the end
+    while (temp1 != NULL && temp2 != NULL) {              // O(N1)
+        if (temp1 == temp2) {
+            return temp1; // Intersection found
+        }
+        temp1 = temp1->next;
+        temp2 = temp2->next;
+    }
+
+    return NULL; // No intersection
+}
+
+// Optimal Solution
+// TC -> O(N1 + N2)
+
+ListNode *getIntersectionNode(ListNode *head1, ListNode *head2) {
+    ListNode* d1 = head1;
+    ListNode* d2 = head2;
+    
+    while(d1 != d2) {
+        if(d1 == NULL) d1 = head2;
+        if(d2 == NULL) d2 = head1;
+
+        d1 = d1->next;
+        d2 = d2->next;
+    }
+    
+    return d1;
+}

@@ -15,10 +15,11 @@ vector<int> findSchedule(int numCourses, vector<pair<int, int>> &prerequisites) 
             adj[v].push_back(u);
         }
 
-      int inDegree[V+1];
-			  for(int i = 0; i<=V; i++){
-				inDegree[i] = 0;
-			}
+        int inDegree[V+1];
+		for(int i = 0; i<=V; i++){
+			inDegree[i] = 0;
+		}
+		
 	    for(int i = 0; i < V; i++){
 	        for(auto it : adj[i]){
 	            inDegree[it]++;

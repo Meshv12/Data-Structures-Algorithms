@@ -14,7 +14,7 @@ void topoSort(int node, vector<int> &vis, stack<int> &st, vector<pair<int, int>>
         st.push(node);
      }
      
-     vector<int> shortestPath(int N,int M, vector<vector<int>>& edges){
+vector<int> shortestPath(int N, int M, vector<vector<int>>& edges){
         vector<pair<int, int>> adj[N+1];
         // make adj list
         for(int i = 0; i < M; i++){

@@ -1,0 +1,81 @@
+// Native approch  
+// TC -> O(3*N)
+
+// Step 1: reverse LL:   1->5->9  + 1     :for add 1 to 159 we have to add 1 in ekam's part(1 add to 9)
+// Step 2: Add 1 and take carry 
+// Step 3: reverse again to form original LL and carry is 1 then add new node else not
+
+// This take 3 travasals --> we can optimise it using backtraking and recursion
+
+
+Node* reverseLinkedList(Node *head)
+{
+    if(head == NULL || head->next == NULL)return head;
+    Node* temp = head;
+    Node* prev = NULL;
+
+    while(temp != NULL){
+        Node* front = temp->next;
+        temp->next = prev;
+        prev = temp;
+        temp = front;
+    }
+
+    return prev;
+}
+
+Node *addOne(Node *head)
+{
+    head = reverseLinkedList(head);                // O(N)
+    Node* temp = head;
+    int carry = 1;
+
+    while(temp != NULL){                          // O(N)
+        temp->data = temp->data + carry;
+        if(temp->data < 10){
+            carry = 0;
+            break;
+        }
+        else{
+            temp->data = 0;
+            carry = 1;
+        }
+        temp = temp->next;
+    }
+    if(carry == 1){
+        Node* newnode = new Node(1);
+        head = reverseLinkedList(head);            // O(N)
+        newnode->next = head;
+        return newnode;
+    }
+    head = reverseLinkedList(head);
+    return head;
+}
+
+// Optimal Solution
+// TC : O(N)
+// SC : O(N)       // stack space
+
+int helper(Node* temp){
+    if(temp == NULL) return 1;
+
+    int carry = helper(temp->next);
+    temp->data = temp->data + carry;
+    if(temp->data < 10){
+        return 0;
+    }
+    temp->data = 0;
+    return 1;
+}
+
+Node *addOne(Node *head)
+{
+    int carry = helper(head);  // final carry
+
+    if(carry == 1){
+        Node* newnode = new Node(1);
+        newnode->next = head;
+        return newnode;
+    }
+    return head;
+}
