@@ -27,7 +27,6 @@ int f(int day, int last, vector<vector<int>> &points, vector<vector<int>> &dp) {
   if(dp[day][last] != -1) return dp[day][last];
 
   // Recursively calculate the maximum points possible for all the other tasks.
-  // This comment explains the recursive call.
   int maxi = 0;
   for (int task = 0; task < 3; task++) {
     if (task != last) {
@@ -73,7 +72,6 @@ int tabulation(int n, vector<vector<int>> &points)
 
             dp[day][last] = maxi;
 
-// till here
         }
     }
     return dp[n-1][3];

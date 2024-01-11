@@ -1,0 +1,15 @@
+Node* deleteMiddle(Node* head){
+    if(head == NULL || head->next == NULL) return NULL;
+
+    Node* slow = head;
+    Node* fast = head;
+    fast = fast->next->next;        // skip 1 step or save prev state
+
+    while(fast != NULL && fast->next != NULL){
+        slow = slow->next;
+        fast = fast->next->next;
+    }
+
+    slow->next = slow->next->next;
+    return head;
+}
