@@ -1,0 +1,57 @@
+class Solution
+{
+    vector<int> topView(Node *root)
+    {
+        map<int, int> mp;  // {vertical line, node->val}
+        queue<pair<Node*, int>> q;  // {Node, vertical line}
+        
+        q.push({root, 0});
+        
+        while(!q.empty()){
+            auto it = q.front();
+            q.pop();
+            auto node = it.first;
+            int vertical_level= it.second;
+            
+            if(mp.find(vertical_level) == mp.end()) mp[vertical_level] = node->data;
+            
+            if(node->left) q.push({node->left, vertical_level-1});
+            if(node->right) q.push({node->right, vertical_level + 1});
+        }
+        
+        vector<int> ans;
+        for(auto it : mp){
+            ans.push_back(it.second);
+        }
+        
+        return ans;
+    }
+
+    // Bottom View
+    vector <int> bottomView(Node *root) {
+        map<int, int> mp;  // {vertical line, node->val}
+        queue<pair<Node*, int>> q;  // {Node, vertical line}
+        
+        q.push({root, 0});
+        
+        while(!q.empty()){
+            auto it = q.front();
+            q.pop();
+            auto node = it.first;
+            int vertical_level= it.second;
+            
+            mp[vertical_level] = node->data;
+            
+            if(node->left) q.push({node->left, vertical_level-1});
+            if(node->right) q.push({node->right, vertical_level + 1});
+        }
+        
+        vector<int> ans;
+        for(auto it : mp){
+            ans.push_back(it.second);
+        }
+        
+        return ans;
+    }
+
+};

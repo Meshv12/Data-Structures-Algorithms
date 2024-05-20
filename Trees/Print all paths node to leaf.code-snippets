@@ -1,0 +1,25 @@
+class Solution {
+public:
+    void inorder(TreeNode* root, vector<string> &ans, string s){
+        if(root == NULL) return;
+
+        s.append(to_string(root->val));
+
+        if(root->left == NULL && root->right == NULL){
+            ans.push_back(s);
+        }
+        else{
+            s.append("->");
+            inorder(root->left, ans, s);
+            inorder(root->right, ans, s);
+        }
+    }
+
+    vector<string> binaryTreePaths(TreeNode* root) {
+        vector<string> ans;
+        if(root == NULL) return ans;
+        string s;
+        inorder(root, ans, s);
+        return ans;
+    }
+};

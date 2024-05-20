@@ -7,7 +7,7 @@ using namespace std;
 // memoization 
 
     int f(int i, int j, vector<vector<int>> &arr, vector<vector<int>> &dp){
-        if(i>=0 && j>=0 && arr[i][j] == 1) return 0;
+        if(i>=0 && j>=0) return 0;
         if(i<0 || j<0) return 0;
         if(i == 0 && j == 0) return 1;
 

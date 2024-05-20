@@ -1,0 +1,71 @@
+class Solution {
+public:
+    void mark_parent(TreeNode* root, unordered_map<TreeNode*, TreeNode*> &mp){
+        queue<TreeNode*> q;
+        q.push(root);
+
+        while(!q.empty()){
+            auto node = q.front();
+            q.pop();
+
+            if(node->left){
+                q.push(node->left);
+                mp[node->left] = node;   // {child, parent}
+            }
+            if(node->right){
+                q.push(node->right);
+                mp[node->right] = node;   // {child, parent}
+            }
+        }
+    }
+
+    vector<int> distanceK(TreeNode* root, TreeNode* target, int k) {
+        unordered_map<TreeNode*, TreeNode*> mp;
+        mark_parent(root, mp);
+
+        unordered_map<TreeNode*, bool> visited;
+        queue<TreeNode*> q;
+        q.push(target);
+        visited[target] = true;
+
+        int curr_level = 0;
+
+        while(!q.empty()){
+            int size = q.size();
+            if(curr_level == k) break;
+            curr_level++;
+
+            while(size--){
+                auto current = q.front();
+                q.pop();
+
+                if(current->left && visited[current->left] != true){
+                    q.push(current->left);
+                    visited[current->left] = true;
+                }
+
+                if(current->right && visited[current->right] != true){
+                    q.push(current->right);
+                    visited[current->right] = true;
+                }
+
+                auto parent = mp[current];
+
+                if(parent && visited[parent] != true){
+                    q.push(parent);
+                    visited[parent] = true;
+                }
+            }
+        }
+
+        vector<int> ans;
+        while(!q.empty()){
+            auto it = q.front()->val;
+            ans.push_back(it);
+            q.pop();
+        }
+
+        return ans;
+
+    }
+};

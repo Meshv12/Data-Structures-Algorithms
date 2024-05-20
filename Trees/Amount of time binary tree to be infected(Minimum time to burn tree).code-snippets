@@ -1,0 +1,67 @@
+class Solution {
+public:
+    TreeNode* mark_parent(TreeNode* root, unordered_map<TreeNode*, TreeNode*> &mp, int start){
+        queue<TreeNode*> q;
+        q.push(root);
+        TreeNode* res;
+
+        while(!q.empty()){
+            auto node = q.front();
+            q.pop();
+            if(start == node->val) res = node;
+
+            if(node->left){
+                q.push(node->left);
+                mp[node->left] = node;   // {child, parent}
+            }
+            if(node->right){
+                q.push(node->right);
+                mp[node->right] = node;   // {child, parent}
+            }
+        }
+
+        return res;
+    }
+
+    int amountOfTime(TreeNode* root, int start) {
+        unordered_map<TreeNode*, TreeNode*> mp;
+        TreeNode* target = mark_parent(root, mp, start);
+
+        unordered_map<TreeNode*, bool> visited;
+        queue<TreeNode*> q;
+        q.push(target);
+        visited[target] = true;
+
+        int curr_level = 0;
+
+        while(!q.empty()){
+            int size = q.size();
+            int flag = 0;
+
+            while(size--){
+                auto current = q.front();
+                q.pop();
+
+                if(current->left && visited[current->left] != true){
+                    q.push(current->left);
+                    visited[current->left] = true;
+                }
+
+                if(current->right && visited[current->right] != true){
+                    q.push(current->right);
+                    visited[current->right] = true;
+                }
+
+                auto parent = mp[current];
+
+                if(parent && visited[parent] != true){
+                    q.push(parent);
+                    visited[parent] = true;
+                }
+            }
+            curr_level++;
+        }
+
+        return curr_level-1;
+    }
+};

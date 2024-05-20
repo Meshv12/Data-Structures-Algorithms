@@ -77,3 +77,63 @@ public:
         return -1;
     }
 };
+
+// Open the lock (leetcode-752)
+
+
+int openLock(vector<string> &deadends, string target)
+{
+    unordered_set<string> st(deadends.begin(), deadends.end());
+
+    if (st.find("0000") != st.end())
+        return -1;
+
+    queue<string> q;
+    q.push("0000");
+    st.insert("0000");
+    int level = 0;
+
+    while (!q.empty())
+    {
+
+        int size = q.size();
+
+        while (size--)
+        {
+
+            string str = q.front();
+            q.pop();
+
+            if (str == target)
+                return level;
+
+            for (int i = 0; i < 4; i++)
+            {
+                char ch = str[i];
+                char dec, inc;
+
+                ch == '0' ? dec = '9' : dec = ch - 1;
+                ch == '9' ? inc = '0' : inc = ch + 1;
+
+                str[i] = inc; /// ek vaar increse karvu
+                if (st.find(str) == st.end())
+                {
+                    q.push(str);
+                    st.insert(str);
+                }
+
+                str[i] = dec; /// ek vaar decrese karvu
+                if (st.find(str) == st.end())
+                {
+                    q.push(str);
+                    st.insert(str);
+                }
+
+                str[i] = ch;
+            }
+        }
+        level++;
+    }
+
+    return -1;
+}
