@@ -73,3 +73,54 @@ int tabulation(string s, string t)
     cout << ans;
     */
 }
+
+
+// Print all possible LIS
+
+// vector<string> all_longest_common_subsequences(string s, string t)
+// {
+//     int n = s.length();
+//     int m = t.length();
+//     vector<vector<int>> dp(n + 1, vector<int>(m + 1, -1));
+//     for (int i = 0; i <= n; i++)
+//         dp[i][0] = 0;
+//     for (int i = 0; i <= m; i++)
+//         dp[0][i] = 0;
+//     for (int i = 1; i <= n; i++)
+//     {
+//         for (int j = 1; j <= m; j++)
+//         {
+//             if (s[i - 1] == t[j - 1])
+//                 dp[i][j] = 1 + dp[i - 1][j - 1];
+//             else
+//                 dp[i][j] = max(dp[i][j - 1], dp[i - 1][j]);
+//         }
+//     }
+
+//     set<string> ans;
+//     queue<pair<pair<int, int>, string>> q;
+//     q.push({{n, m}, ""});
+//     while (!q.empty())
+//     {
+//         int x = q.front().first.first;
+//         int y = q.front().first.second;
+//         string str = q.front().second;
+//         q.pop();
+//         if (x == 0 || y == 0)
+//             ans.insert(str);
+//         else
+//         {
+//             if (s[x - 1] == t[y - 1])
+//             {
+//                 q.push({{x - 1, y - 1}, s[x - 1] + str});
+//             }
+//             else
+//             {
+//                 if (dp[x - 1][y] >= dp[x][y - 1])
+//                     q.push({{x - 1, y}, str});
+//                 if (dp[x - 1][y] <= dp[x][y - 1])
+//                     q.push({{x, y - 1}, str});
+//             }
+//         }
+//     }
+//     return vector<string>(ans.begin(), ans.end());

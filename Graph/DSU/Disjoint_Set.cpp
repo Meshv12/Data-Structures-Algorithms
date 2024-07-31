@@ -64,6 +64,8 @@ bool customComparator(const std::vector<int> &a, const std::vector<int> &b)
 //     DisjointSet ds(n);
 //     sort(edges.begin(), edges.end(), customComparator);
 //     int ans = 0;
+
+    //  take edges*4*alfa time
 //     for (auto it : edges)
 //     {
 //         int u = it[0];
@@ -78,3 +80,6 @@ bool customComparator(const std::vector<int> &a, const std::vector<int> &b)
 //     }
 //     return ans;
 // }
+
+
+// TC : O(Elog E + E*4*alfa)
