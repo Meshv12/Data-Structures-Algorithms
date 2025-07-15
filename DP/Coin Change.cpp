@@ -2,108 +2,119 @@
 using namespace std;
 // Memoization
 
-int f(int ind, int T, vector<int> &nums, vector<vector<int>> &dp)
+class Solution
 {
-    if (ind == 0)
+public:
+    int dp[13][10001];
+    int f(int ind, int k, vector<int> &nums, int n)
     {
-        if (T % nums[0] == 0)
-            return T / nums[0];
-        return 1e9;
+        if (k == 0)
+            return 0;
+        if (ind >= n)
+            return 1e9;
+
+        if (dp[ind][k] != -1)
+            return dp[ind][k];
+
+        int n_pick = f(ind + 1, k, nums, n);
+        int pick = 1e9;
+        if (k >= nums[ind])
+        {
+            pick = 1 + f(ind, k - nums[ind], nums, n);
+        }
+
+        return dp[ind][k] = min(n_pick, pick);
     }
 
-    if (dp[ind][T] != -1)
-        return dp[ind][T];
-
-    int notTake = 0 + f(ind - 1, T, nums, dp);
-    int take = INT_MAX;
-    if (nums[ind] <= T)
+    int coinChange(vector<int> &coins, int amount)
     {
-        take = 1 + f(ind, T - nums[ind], nums, dp);
-    }
+        memset(dp, -1, sizeof(dp));
+        int n = coins.size();
+        int ans = f(0, amount, coins, n);
 
-    return dp[ind][T] = min(notTake, take);
-}
-int minimumElements(vector<int> &nums, int x)
-{
-    int n = nums.size();
-    vector<vector<int>> dp(n, vector<int>(x + 1, -1));
-    int ans = f(n - 1, x, nums, dp);
-    if (ans >= 1e9)
-        return -1;
-    return ans;
-}
+        return (ans == 1e9) ? -1 : ans;
+    }
+};
 
 // Tabulation
 
-int tabulation(vector<int> &nums, int x)
+class Solution1
 {
-    int n = nums.size();
-    vector<vector<int>> dp(n, vector<int>(x + 1, 0));
+public:
+    int dp[13][10001];
 
-    for (int T = 0; T <= x; T++)
+    int coinChange(vector<int> &nums, int amount)
     {
-        if (T % nums[0] == 0)
-            dp[0][T] = T / nums[0];
-        else
-            dp[0][T] = 1e9;
-    }
+        int n = nums.size();
 
-    for (int ind = 1; ind < n; ind++)
-    {
-        for (int T = 0; T <= x; T++)
+        for (int i = 0; i <= n; i++)
         {
-
-            int notTake = 0 + dp[ind - 1][T];
-            int take = INT_MAX;
-            if (nums[ind] <= T)
+            for (int j = 0; j <= amount; j++)
             {
-                take = 1 + dp[ind][T - nums[ind]];
+                if (j == 0)
+                    dp[i][j] = 0;
+                else
+                    dp[i][j] = 1e9;
             }
-
-            dp[ind][T] = min(notTake, take);
         }
-    }
 
-    int ans = dp[n - 1][x];
-    if (ans >= 1e9)
-        return -1;
-    return ans;
-}
+        for (int i = 1; i <= n; i++)
+        {
+            for (int k = 0; k <= amount; k++)
+            {
+
+                int pick = 1e9;
+                if (nums[i - 1] <= k)
+                    pick = 1 + dp[i][k - nums[i - 1]];
+                int n_pick = dp[i - 1][k];
+
+                dp[i][k] = min(pick, n_pick);
+            }
+        }
+
+        return dp[n][amount] == 1e9 ? -1 : dp[n][amount];
+    }
+};
 
 // Space optimization
-
-int minimumElements(vector<int> &nums, int x)
+class Solution3
 {
-    int n = nums.size();
-    vector<int> cur(x + 1, 0), prev(x + 1, 0);
+public:
+    int dp[13][10001];
 
-    for (int T = 0; T <= x; T++)
+    int coinChange(vector<int> &nums, int amount)
     {
-        if (T % nums[0] == 0)
-            prev[T] = T / nums[0];
-        else
-            prev[T] = 1e9;
-    }
+        int n = nums.size();
+        
+        vector<int> prev(amount + 1, 1e9);
+        vector<int> temp(amount + 1, 1e9);
 
-    for (int ind = 1; ind < n; ind++)
-    {
-        for (int T = 0; T <= x; T++)
+        temp[0] = prev[0] = 0;
+
+        // for (int i = 0; i <= n; i++) {
+        //     for (int j = 0; j <= amount; j++) {
+        //         if (j == 0)
+        //             dp[i][j] = 0;
+        //         else
+        //             dp[i][j] = 1e9;
+        //     }
+        // }
+
+        for (int i = 1; i <= n; i++)
         {
-
-            int notTake = 0 + prev[T];
-            int take = INT_MAX;
-            if (nums[ind] <= T)
+            for (int k = 0; k <= amount; k++)
             {
-                take = 1 + cur[T - nums[ind]];
+
+                int pick = 1e9;
+                if (nums[i - 1] <= k)
+                    pick = 1 + temp[k - nums[i - 1]];
+                int n_pick = prev[k];
+
+                temp[k] = min(pick, n_pick);
             }
-
-            cur[T] = min(notTake, take);
+            prev = temp;
         }
-        prev = cur;
-    }
 
-    int ans = prev[x];
-    if (ans >= 1e9)
-        return -1;
-    return ans;
-}
+        return prev[amount] == 1e9 ? -1 : prev[amount];
+    }
+};

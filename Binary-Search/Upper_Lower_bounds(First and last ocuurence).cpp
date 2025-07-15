@@ -1,4 +1,6 @@
 #include <bits/stdc++.h>
+using namespace std;
+
 int lowerbound(vector<int> arr, int n, int x)
 {
     int low = 0, high = n - 1;

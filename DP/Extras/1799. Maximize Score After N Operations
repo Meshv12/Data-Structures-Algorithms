@@ -1,0 +1,35 @@
+class Solution {
+public:
+    unordered_map<vector<bool>, int> dp;
+    int f(vector<bool> &vis, int k, vector<int>& nums, int n){
+        if(dp.count(vis)) return dp[vis];
+
+        int ans = 0;
+
+        for(int i = 0; i <= n-2; i++){
+            if(vis[i]) continue;
+
+            for(int j = i+1; j < n; j++){
+                if(vis[j]) continue;
+
+                vis[i] = true;
+                vis[j] = true;
+
+                int curr = k*__gcd(nums[i], nums[j]) + f(vis, k+1, nums, n);
+
+                ans = max(ans, curr); 
+
+                vis[i] = false;
+                vis[j] = false;
+            }
+        }
+
+        return dp[vis] = ans;
+    }
+    int maxScore(vector<int>& nums) {
+        int n = nums.size();
+        vector<bool> vis(n, false);
+
+        return f(vis, 1, nums, n);
+    }
+};
